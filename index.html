@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FMB RSVP Scanning</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<style>
+  .card {
+    max-width: 600px;
+    padding: 20px;
+    margin: 20px 0px 20px 0px;
+    background-color: #f5f1e0;
+    background-image: url("https://fmbrsvp.com/assets/bg.png");
+    background-repeat: repeat;
+    background-size: 150px;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  img {
+    margin-bottom: 10px;
+    max-width: 200px;
+    height: auto;
+  }
+
+  #form {
+    display: none;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="text-center">
+        <img src="https://fmbrsvp.com/assets/logo.png"><br>
+        <h4>FMB RSVP Scanning module - Burhani Mohallah Poona</h4><br>
+        <button id="read-nfc">Read NFC Tag</button>
+        <p id="nfc-output"></p>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
+  <script>
+    document.getElementById('read-nfc').addEventListener('click', async () => {
+      if ('NDEFReader' in window) {
+        try {
+          const ndef = new NDEFReader();
+          await ndef.scan();
+          console.log("NFC reader started");
+
+          ndef.addEventListener("reading", event => {
+            const decoder = new TextDecoder();
+            for (const record of event.message.records) {
+              const recordData = decoder.decode(record.data);
+              document.getElementById('nfc-output').textContent = recordData;
+            }
+          });
+        } catch (error) {
+          console.error("Error reading NFC tag:", error);
+          document.getElementById('nfc-output').textContent = `Error: ${error.message}`;
+        }
+      } else {
+        console.log("Web NFC API not supported.");
+        document.getElementById('nfc-output').textContent = "Web NFC API not supported.";
+      }
+    });
+  </script>
+</body>
+
+</html>
