@@ -55,7 +55,7 @@
           ndef.addEventListener("reading", ({ message, serialNumber }) => {
             const decoder = new TextDecoder();
             const recordData = decoder.decode(message.records[1]);
-            alert(recordData+" HI "+message.records[1]);
+            alert(JSON.stringify(message.records));
             document.getElementById('nfc-output').textContent = message.records[1];
           });
         } catch (error) {
