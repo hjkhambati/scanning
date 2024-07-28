@@ -58,7 +58,7 @@
             const decoder = new TextDecoder();
             for (const record of event.message.records) {
               const recordData = decoder.decode(record.data);
-              document.getElementById('nfc-output').textContent = recordData;
+              document.getElementById('nfc-output').textContent = record;
             }
           });
         } catch (error) {
