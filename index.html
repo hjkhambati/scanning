@@ -53,8 +53,10 @@
           const ndef = new NDEFReader();
           await ndef.scan();
           ndef.addEventListener("reading", ({ message, serialNumber }) => {
-            alert(message.records);
-            document.getElementById('nfc-output').textContent = erialNumber+message.records;
+            const decoder = new TextDecoder();
+            const recordData = decoder.decode(message.records);
+            alert(recordData);
+            document.getElementById('nfc-output').textContent = message.records;
           });
         } catch (error) {
           console.error("Error reading NFC tag:", error);
