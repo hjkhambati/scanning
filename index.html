@@ -53,7 +53,7 @@
           const ndef = new NDEFReader();
           await ndef.scan();
           ndef.addEventListener("reading", ({ message, serialNumber }) => {
-            alert(JSON.stringify(message.records[0]));
+            alert(new TextDecoder().decode(message.records[0].data));
             document.getElementById('nfc-output').textContent = message.records[0];
           });
         } catch (error) {
