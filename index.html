@@ -38,7 +38,7 @@
       <div class="text-center">
         <img src="https://fmbrsvp.com/assets/logo.png"><br>
         <h4>FMB RSVP Scanning module - Burhani Mohallah Poona</h4><br>
-        <button id="read-nfc">Read NFC Tag</button>
+        <button class="btn btn-primary" id="read-nfc">Read NFC Tag</button>
         <p id="nfc-output"></p>
       </div>
     </div>
@@ -53,10 +53,7 @@
           const ndef = new NDEFReader();
           await ndef.scan();
           ndef.addEventListener("reading", ({ message, serialNumber }) => {
-            record = message.records[0];
-            document.getElementById('nfc-output').textContent += `\nRecord type: ${record.recordType}`;
-            document.getElementById('nfc-output').textContent += `\nRecord id: ${record.id}`;
-            document.getElementById('nfc-output').textContent += `\nRecord data: ${new TextDecoder().decode(record.data)}`;
+            document.getElementById('nfc-output').textContent = `\nRecord type: ${serialNumber}`;
           });
         } catch (error) {
           console.error("Error reading NFC tag:", error);
